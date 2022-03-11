@@ -1,0 +1,36 @@
+* {
+    margin: 0;
+    padding: o;
+}
+
+.header {
+    position: relative;
+    border: 1px solid black;
+    margin: 30px auto;
+    padding: 10px;
+    width: 80%;
+    height: 60px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 14px;
+}
+
+.header h1 {
+    top: 10px;
+}
+
+.btnHeader {
+    position: absolute;
+    border-radius: 100%;
+    border: 1px solid black;
+    text-align: left;
+}
+
+#github {
+    right: 80px;
+}
+#contact {
+    right: 50px;
+}
+#mail {
+    right: 20px;
+}
