@@ -1,21 +1,28 @@
 * {
     margin: 0;
-    padding: o;
+    padding: 0;
+}
+
+body {
+    background-color: black;
 }
 
 .header {
     position: relative;
-    border: 1px solid black;
+    border: 2px solid white;
     margin: 30px auto;
     padding: 10px;
     width: 80%;
-    height: 60px;
+    height: 40px;
     font-family: 'Press Start 2P', cursive;
-    font-size: 14px;
+    color: white;
+    font-size: 10px;
 }
 
 .header h1 {
-    top: 10px;
+    position: absolute;
+    top: 15px;
+    left: 25px;
 }
 
 .btnHeader {
@@ -26,11 +33,71 @@
 }
 
 #github {
-    right: 80px;
+    top: 10px;
+    right: 90px;
+    cursor: pointer;
+}
+#github img {
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+}
+#github.active::before{
+    content: "";
+    display: block;
+    height: 0;
+    width: 0;
+    border-top: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid white;
+    border-left: 8px solid transparent;
+    position: absolute;
+    top: 25px;
+    right: 7px;
 }
 #contact {
-    right: 50px;
+    top: 10px;
+    right: 55px;
+    cursor: pointer;
+}
+#contact img {
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+}
+#contact.active::before{
+    content: "";
+    display: block;
+    height: 0;
+    width: 0;
+    border-top: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid white;
+    border-left: 8px solid transparent;
+    position: absolute;
+    top: 25px;
+    right: 7px;
 }
 #mail {
+    top: 10px;
     right: 20px;
+    cursor: pointer;
+}
+#mail img {
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+}
+#mail.active::before{
+    content: "";
+    display: block;
+    height: 0;
+    width: 0;
+    border-top: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid white;
+    border-left: 8px solid transparent;
+    position: absolute;
+    top: 25px;
+    right: 7px;
 }
