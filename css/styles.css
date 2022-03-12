@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    border-radius: 3px;
 }
 
 body {
@@ -13,7 +14,7 @@ body {
     margin: 30px auto;
     padding: 10px;
     width: 80%;
-    height: 40px;
+    height: 60px;
     font-family: 'Press Start 2P', cursive;
     color: white;
     font-size: 10px;
@@ -21,6 +22,7 @@ body {
 
 .header h1 {
     position: absolute;
+    font-size: 40px;
     top: 15px;
     left: 25px;
 }
@@ -32,62 +34,39 @@ body {
 }
 /*Div github*/
 #githubdiv {
-    top: 10px; 
-    right: 90px;
+    top: 15px; 
+    right: 150px;
     cursor: pointer;
 }
 /*Imagen*/
 #github{
-    width: 30px; 
-    height: 30px;
+    width: 50px; 
+    height: 50px;
     border-radius: 100%;
 }
-.btnHeader.active::before{
-    content: "";
-    display: block;
-    height: 0;
-    width: 0;
-    border-top: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 8px solid white;
-    border-left: 8px solid transparent;
-    position: absolute;
-    top: 25px;
-    right: 7px;
-}
+
 #contactdiv {
-    top: 10px;
-    right: 55px;
+    top: 15px;
+    right: 85px;
     cursor: pointer;
 }
 #contact {
-    width: 30px;
-    height: 30px;
+    width: 50px;
+    height: 50px;
     border-radius: 100%;
 }
-.btnHeader.active::before{
-    content: "";
-    display: block;
-    height: 0;
-    width: 0;
-    border-top: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 8px solid white;
-    border-left: 8px solid transparent;
-    position: absolute;
-    top: 25px;
-    right: 7px;
-}
+
 #maildiv {
-    top: 10px;
+    top: 15px;
     right: 20px;
     cursor: pointer;
 }
 #mail{
-    width: 30px;
-    height: 30px;
+    width: 50px;
+    height: 50px;
     border-radius: 100%;
 }
+
 .btnHeader.active::before{
     content: "";
     display: block;
@@ -98,6 +77,52 @@ body {
     border-bottom: 8px solid white;
     border-left: 8px solid transparent;
     position: absolute;
-    top: 25px;
-    right: 7px;
+    top: 50px;
+    right: 17px;
+}
+
+#usuario {
+    border: 1px solid white;
+    margin: auto;
+    padding: 20px;
+    color: white;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 14px;
+    width: 20%;
+    height: 300px;
+    position: relative;
+}
+form {
+    text-align: center;
+}
+
+@keyframes entra{
+    from {
+        transform: translateY(-200);
+    }
+    to {
+        transform: translate(0);
+    }
+}
+
+.field {
+    padding: 10px;
+    border: none;
+}
+
+#btn-start {
+    position: absolute;
+    padding: 10px;
+    top: 270px;
+    left: calc(50% - 60px);
+    font-family: 'Press Start 2P', cursive
+}
+
+#canva {
+    border: 1px solid white;
+}
+
+#juego {
+    margin: 20px auto;
+    text-align: center;
 }

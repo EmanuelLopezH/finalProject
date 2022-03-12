@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,6 +22,25 @@
 
     </header>
 
-
+    <div id="usuario">
+        <form autocomplete="off">
+            <br>
+            <label for="name">Nombre:</label> <br> <br>
+            <input id="name" type="text" class="field" placeholder="Ingresa tu nombre">
+            <br>
+            <br>
+            <p>Puntuación:</p> <br>
+            <input class="field" type="text" readonly>
+            <br>
+            <br>
+            <p>Monedas:</p> <br>
+            <input class="field" type="text" readonly value="100">
+            <button type="button" id="btn-start">Comenzar</button>
+        </form>
+    </div>
+    <br>
+    <div id="juego" class="juego">
+        <canvas id="canva" width="500" height="500"></canvas>
+    </div>
 </body>
 </html>
