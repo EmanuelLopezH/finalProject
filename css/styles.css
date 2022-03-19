@@ -122,9 +122,10 @@ form {
     border: 1px solid white;
 }
 
-#juego {
+.juego {
     margin: 20px auto;
     text-align: center;
+    
 }
 
 .gitdiv.active {

@@ -10,11 +10,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://kit.fontawesome.com/5c6e45d7f1.js" crossorigin="anonymous"></script>
+    <script src="js/user.js"></script>
     <script src="js/punto.js"></script>
+    <script src="js/rectangle.js"></script>
     <script src="js/linea.js"></script>
     <script src="js/main.js"></script>
 </head>
-<body>
+<body id="body">
     <header class="header">
         <h1>Ambulance Emergency</h1>
         <div class="redes" id="redes">
@@ -37,17 +39,17 @@
             <br>
             <br>
             <p>Puntuación:</p> <br>
-            <input class="field" type="text" readonly>
+            <input class="field" id="score" type="text" readonly value="000000">
             <br>
             <br>
             <p>Monedas:</p> <br>
-            <input class="field" type="text" readonly value="100">
+            <input class="field" type="text" id="coins" readonly value="100">
             <button type="button" id="btn-start">Comenzar</button>
         </form>
     </div>
     <br>
     <div id="juego" class="juego">
-        <canvas id="canva" width="700" height="800"></canvas>
+        <canvas id="canva" class="canva" width="700" height="800"></canvas>
     </div>
 </body>
 </html>
