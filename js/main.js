@@ -9,57 +9,99 @@ function main(){
     let btn = document.getElementById("btn-start");
     let streetLine = [];
     let startLine = [];
+    let car = [];
+    let sprite = new Image;
+    sprite.src = "images/cars.png"
     btn.addEventListener("click", saveUser);
     media();
     lines();
     startLines();
-    streetLines()
+    streetLines();
+
+    function cars(){
+        let p1, p2, p3, p4, pr;
+        p1 = new Point(110, -110);
+        p2 = new Point(110*2.24, -110);
+        p3 = new Point(110*3.457, -110);
+        p4 = new Point(110*4.68, -110);
+        pr = randInt(1,4);
+        if(pr == 1){
+            car.push(new Cars(p1.x, p1.y))
+            for(let i = 0; i < car.length; i++){
+                car[i].draw(ctx);
+            }
+        }
+        if(pr == 2){
+            car.push(new Cars(p2.x, p2.y))
+            for(let i = 0; i < car.length; i++){
+                car[i].draw(ctx);
+            }
+        }
+        if(pr == 3){
+            car.push(new Cars(p3.x, p3.y))
+            for(let i = 0; i < car.length; i++){
+                car[i].draw(ctx);
+            }
+        }
+        if(pr == 4){
+            car.push(new Cars(p4.x, p4.y))
+            for(let i = 0; i < car.length; i++){
+                car[i].draw(ctx);
+            }
+        }
+    }
 
     function moveStarL(){
         ctx.clearRect(0,0,w,h);
         lines();
         for(let i = 0; i < startLine.length; i++){
+            startLine[i].vy = 4.5;
             startLine[i].move();
         }
         for(let i = 0; i < startLine.length; i++){
             startLine[i].draw(ctx);
         }
-        
+        for(let i = 0; i < streetLine.length; i++){
+            streetLine[i].vy = 4.5;
+            streetLine[i].move()
+        }
+        let sl = streetLine.length -1
+        if(streetLine[sl].y > 70){
+            let p1, p2, p3, p4;
+            p1 = new Point(140, -70);
+            p2 = new Point(140*2-5, -70);
+            p3 = new Point(140*3-10, -70);
+            p4 = new Point(140*4-15, -70);
+            streetLine.push(new Rectangle(p1.x, p1.y, 15, 70, "white"));
+            streetLine.push(new Rectangle(p2.x, p2.y, 15, 70, "white"));
+            streetLine.push(new Rectangle(p3.x, p3.y, 15, 70, "white"));
+            streetLine.push(new Rectangle(p4.x, p4.y, 15, 70, "white"));
+        }
+        for(let i = 0; i < streetLine.length; i++){
+            streetLine[i].draw(ctx) 
+        }
+        for(let i = 0; i < car.length; i++){
+            car[i].move();
+        }
+        for(let i = 0; i < car.length; i++){
+            car[i].draw(ctx);
+        }
         window.requestAnimationFrame(moveStarL);
     }
 
-    function moveStreetL(){
-        ctx.clearRect(0,0,w,h)
-        lines()
-        for(let i = 0; i < streetLine.length; i++){
-            streetLine[i].move()
-        }
-        for(let i = 0; i < streetLine.length; i++){
-            streetLine[i].draw() 
-        }
-    }
-    
     function streetLines(){
         let p1, p2, p3, p4;
         p1 = new Point(140, -70);
         p2 = new Point(140*2-5, -70);
         p3 = new Point(140*3-10, -70);
-        p4 = new Point(140*4-25, -70);
+        p4 = new Point(140*4-15, -70);
         let ll = startLine.length - 1;
-        let sl = streetLine.length -1
-        if(startLine[ll].y > 70){
-            streetLine.push(new Rectangle(p1.x, p1.y, 15, 70, "white"));
-            streetLine.push(new Rectangle(p2.x, p2.y, 15, 70, "white"));
-            streetLine.push(new Rectangle(p3.x, p3.y, 15, 70, "white"));
-            streetLine.push(new Rectangle(p4.x, px.y, 15, 70, "white"));
-
-            if(streetLine[sl].y > 70){
-                /* streetLine.push(new Rectangle(p1.x, p1.y, 15, 70, "white"));
-                streetLine.push(new Rectangle(p2.x, p2.y, 15, 70, "white"));
-                streetLine.push(new Rectangle(p3.x, p3.y, 15, 70, "white"));
-                streetLine.push(new Rectangle(p4.x, px.y, 15, 70, "white")); */
-                alert("Ay!!!!")
-            }
+        streetLine.push(new Rectangle(p1.x, p1.y-24, 15, 70, "white"));
+        streetLine.push(new Rectangle(p2.x, p2.y-24, 15, 70, "white"));
+        streetLine.push(new Rectangle(p3.x, p3.y-24, 15, 70, "white"));
+        streetLine.push(new Rectangle(p4.x, p4.y-24, 15, 70, "white"));
+        for(let i = 0; i < streetLine.length; i++){
+            streetLine[i].draw(ctx)
         }
         
         if(startLine[ll].y > h){
@@ -116,6 +158,7 @@ function main(){
         if(localStorage.getItem("User") == null){
             localStorage.setItem("User", JSON.stringify(user))
         }
+        setInterval(cars, 1500)
         window.requestAnimationFrame(moveStarL);
     }
 
