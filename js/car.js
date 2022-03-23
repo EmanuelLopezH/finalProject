@@ -14,7 +14,7 @@ class Cars extends Point{
         this.#img = img;
  
         this.#width = 75
-        this.#height = 110
+        this.#height = 120
         this.#sizeX = 250
         this.#sizeY = 500
         this.#frameX = Math.floor(Math.random() * 4)
@@ -24,6 +24,15 @@ class Cars extends Point{
         ctx.drawImage(this.#img, this.#sizeX * this.#frameX, 0, this.#sizeX, this.#sizeY, super.x, super.y, this.#width, this.#height)
     }
 
+    get img(){
+        return this.#img
+    }
+    get width(){
+        return this.#width
+    }
+    get height(){
+        return this.#height
+    }
     get limL(){
         return super.x;
     }
@@ -39,9 +48,9 @@ class Cars extends Point{
 
     collide(otherCar){
         let answer;
-        if((this.limL < otherCar.limD)||
-        (this.limD > otherCar.limL) ||
-        (this.limA < otherCar.limD) ||
+        if((this.limL < otherCar.limR) &&
+        (this.limR > otherCar.limL) &&
+        (this.limA < otherCar.limD) &&
         (this.limD > otherCar.limA)
         ){
             answer = true;

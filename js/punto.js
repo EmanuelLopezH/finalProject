@@ -37,16 +37,16 @@ class Point{
     }
 
     up(){
-        this.#x -= 5;
+        this.#y -= 10;
     }
     down(){
-        this.#x += 5;
+        this.#y += 10;
     }
     left(){
-        this.#y -= 5;
+        this.#x -= 10;
     }
     right(){
-        this.#y += 5;
+        this.#x += 10;
     }
 
     move(){

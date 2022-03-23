@@ -11,16 +11,50 @@ function main(){
     let startLine = [];
     let car = [];
     let sprite = new Image;
+    let ambulance = new Ambulance(w/2, h/2)
+    ambulance.draw(ctx);
+    let div = (w - 160) / 4
     sprite.src = "images/cars.png"
     btn.addEventListener("click", saveUser);
+    window.addEventListener("keydown", (e)=>{
+        if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRigth"].indexOf(e.code) > -1)
+        e.preventDefault();
+    })
     media();
     lines();
     startLines();
     streetLines();
 
+    function moveAmbulance(e){
+        ctx.clearRect(0, 0, w, h)
+        switch(e.key){
+            case "ArrowLeft":
+                ambulance.left();
+                if(ambulance.x < 80)
+                ambulance.x = 80
+                break;
+            case "ArrowRight":
+                ambulance.right();
+                if(ambulance.x + 80 > 620)
+                ambulance.x = 620-80
+                break;
+            case "ArrowUp":
+                ambulance.up();
+                if(ambulance.y < 0)
+                ambulance.y = 0
+                break;
+            case "ArrowDown":
+                ambulance.down();
+                if(ambulance.y + 115 > h)
+                ambulance.y = h-115
+                break;
+        }
+        ambulance.draw(ctx);
+    }
+
     function cars(){
         let p1, p2, p3, p4, pr;
-        p1 = new Point(110, -110);
+        p1 = new Point(80 + div - 40, -110);
         p2 = new Point(110*2.24, -110);
         p3 = new Point(110*3.457, -110);
         p4 = new Point(110*4.68, -110);
@@ -86,6 +120,12 @@ function main(){
         for(let i = 0; i < car.length; i++){
             car[i].draw(ctx);
         }
+        for(let i = 0; i < car.length; i++){
+            if(car[i].collide(ambulance)){
+                alert("Chocaste bro, se te murió el paciente, bro :(")
+            }
+        }
+        ambulance.draw(ctx);
         window.requestAnimationFrame(moveStarL);
     }
 
@@ -159,6 +199,7 @@ function main(){
             localStorage.setItem("User", JSON.stringify(user))
         }
         setInterval(cars, 1500)
+        body.addEventListener("keydown", moveAmbulance)
         window.requestAnimationFrame(moveStarL);
     }
 
@@ -201,30 +242,17 @@ function main(){
 
     function lines() 
     {
-        let point1, point2, point3, point4, point5, point6, point7, point8, point9, point10;
-        let div = (w - 160) / 4
+        let point1, point2, point3, point4;
         point1 = new Point(80, 0);
         point2 = new Point(80, h);
         point3 = new Point(w - 80, 0);
         point4 = new Point(w - 80, h);
-        point5 = new Point(80 + div, 0);
-        point6 = new Point(80 + div, h);
-        point7 = new Point(80 + 2 * div, 0);
-        point8 = new Point(80 + 2 * div, h);
-        point9 = new Point(80 + 3 * div, 0);
-        point10 = new Point(80 + 3 * div, h);
 
-        let line1, line2, line3, line4, line5;
+        let line1, line2;
         line1 = new Line(point1, point2);
         line2 = new Line(point3, point4);
-        line3 = new Line(point5, point6);
-        line4 = new Line(point7, point8);
-        line5 = new Line(point9, point10);
         line1.draw(ctx);
         line2.draw(ctx);
-        line3.draw(ctx);
-        line4.draw(ctx);
-        line5.draw(ctx);
 
     }
 
