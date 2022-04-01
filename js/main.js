@@ -8,6 +8,8 @@ function main() {
     let w = canvas.clientWidth;
     let h = canvas.clientHeight;
     let btn = document.getElementById("btn-start");
+    let gameScore = document.getElementById("gameScore");
+    let bestScore = document.getElementById("bestScore");
     let streetLine = [];
     let startLine = [];
     let car = [];
@@ -40,23 +42,23 @@ function main() {
         switch (e.key) {
             case "ArrowLeft":
                 ambulanc[0].left();
-                if (ambulanc[0].x < 90)
-                    ambulanc[0].x = 100
+                if (ambulanc[0].x < 100)
+                    ambulanc[0].x = 100;
                 break;
             case "ArrowRight":
                 ambulanc[0].right();
-                if (ambulanc[0].x + 90 > 620)
-                    ambulanc[0].x = 620 - 90
+                if (ambulanc[0].x + 90 > 600)
+                    ambulanc[0].x = 600 - 90;
                 break;
             case "ArrowUp":
                 ambulanc[0].up();
                 if (ambulanc[0].y < 0)
-                    ambulanc[0].y = 0
+                    ambulanc[0].y = 0;
                 break;
             case "ArrowDown":
                 ambulanc[0].down();
                 if (ambulanc[0].y + 150 > h)
-                    ambulanc[0].y = h - 150
+                    ambulanc[0].y = h - 150;
                 break;
         }
         ambulanc[0].draw(ctx);
@@ -143,11 +145,12 @@ function main() {
                 else{
                     localStorage.setItem("Best", ptj)
                 }
+                gameScore.innerHTML = ptj
+                bestScore.innerHTML = localStorage.getItem("Best")
                 gameOver()
                 break
             }
         }
-
         ambulanc[0].draw(ctx);
 
     }
@@ -298,8 +301,6 @@ function main() {
 function gameOver() {
     let canvas = document.getElementById("canva");
     let ctx = canvas.getContext("2d");
-    let body = document.getElementById("body")
-
     let w = canvas.clientWidth;
     let h = canvas.clientHeight;
     let btnTA = document.getElementById("try-again")
