@@ -1,6 +1,7 @@
 window.addEventListener("load", main);
 
 function main(){
+    /* Se declaran las variables */
     let canvas = document.getElementById("canva");
     let ctx = canvas.getContext("2d");
     let body = document.getElementById("body");
@@ -10,55 +11,61 @@ function main(){
     let streetLine = [];
     let startLine = [];
     let car = [];
+    let div = (w - 160) / 4;
     let sprite = new Image;
-    let ambulance = new Ambulance(w/2, h/2)
-    ambulance.draw(ctx);
-    let div = (w - 160) / 4
-    sprite.src = "images/cars.png"
+    let ambulanc = [];
+    ambulanc.push(new Ambulance(80 + 2*div - 40, h/2 + 240));
+    let ptj = 0;
+    let requestId;
+    let intervalCars, intervalScore;
+    let divGO = document.getElementById("game-over")
+    divGO.classList.remove("active")
+    ambulanc[0].draw(ctx);
+    sprite.src = "images/cars.png";
+    /* Se crean los listerners y se llaman funciones */
     btn.addEventListener("click", saveUser);
     window.addEventListener("keydown", (e)=>{
         if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRigth"].indexOf(e.code) > -1)
         e.preventDefault();
-    })
+    });
     media();
     lines();
     startLines();
     streetLines();
-
+    /* Función para mover la ambulacia */
     function moveAmbulance(e){
         ctx.clearRect(0, 0, w, h)
         switch(e.key){
             case "ArrowLeft":
-                ambulance.left();
-                if(ambulance.x < 80)
-                ambulance.x = 80
+                ambulanc[0].left();
+                if(ambulanc[0].x < 90)
+                ambulanc[0].x = 100
                 break;
             case "ArrowRight":
-                ambulance.right();
-                if(ambulance.x + 80 > 620)
-                ambulance.x = 620-80
+                ambulanc[0].right();
+                if(ambulanc[0].x + 90 > 620)
+                ambulance.x = 620-90
                 break;
             case "ArrowUp":
-                ambulance.up();
-                if(ambulance.y < 0)
-                ambulance.y = 0
+                ambulanc[0].up();
+                if(ambulanc[0].y < 0)
+                ambulanc[0].y = 0
                 break;
             case "ArrowDown":
-                ambulance.down();
-                if(ambulance.y + 115 > h)
-                ambulance.y = h-115
+                ambulanc[0].down();
+                if(ambulanc[0].y + 150 > h)
+                ambulanc[0].y = h-150
                 break;
         }
-        ambulance.draw(ctx);
+        ambulanc[0].draw(ctx);
     }
-
+    /* Función para crear los carros */
     function cars(){
-        let p1, p2, p3, p4, pr;
+        let p1, p2, p3, pr;
         p1 = new Point(80 + div - 40, -110);
-        p2 = new Point(110*2.24, -110);
-        p3 = new Point(110*3.457, -110);
-        p4 = new Point(110*4.68, -110);
-        pr = randInt(1,4);
+        p2 = new Point(80 + 2*div - 40, -110);
+        p3 = new Point(80 + 3*div - 40, -110);
+        pr = randInt(1,3);
         if(pr == 1){
             car.push(new Cars(p1.x, p1.y))
             for(let i = 0; i < car.length; i++){
@@ -77,18 +84,12 @@ function main(){
                 car[i].draw(ctx);
             }
         }
-        if(pr == 4){
-            car.push(new Cars(p4.x, p4.y))
-            for(let i = 0; i < car.length; i++){
-                car[i].draw(ctx);
-            }
-        }
     }
-
+    /* Función para darle movimiento a todos los objetos del canvas */
     function moveStarL(){
         ctx.clearRect(0,0,w,h);
         lines();
-        for(let i = 0; i < startLine.length; i++){
+        for(let i = 1; i < startLine.length - 1; i++){
             startLine[i].vy = 4.5;
             startLine[i].move();
         }
@@ -102,14 +103,14 @@ function main(){
         let sl = streetLine.length -1
         if(streetLine[sl].y > 70){
             let p1, p2, p3, p4;
-            p1 = new Point(140, -70);
+            /* p1 = new Point(140, -70); */
             p2 = new Point(140*2-5, -70);
             p3 = new Point(140*3-10, -70);
-            p4 = new Point(140*4-15, -70);
-            streetLine.push(new Rectangle(p1.x, p1.y, 15, 70, "white"));
+            /* p4 = new Point(140*4-15, -70); */
+            /* streetLine.push(new Rectangle(p1.x, p1.y, 15, 70, "white")); */
             streetLine.push(new Rectangle(p2.x, p2.y, 15, 70, "white"));
             streetLine.push(new Rectangle(p3.x, p3.y, 15, 70, "white"));
-            streetLine.push(new Rectangle(p4.x, p4.y, 15, 70, "white"));
+            /* streetLine.push(new Rectangle(p4.x, p4.y, 15, 70, "white")); */
         }
         for(let i = 0; i < streetLine.length; i++){
             streetLine[i].draw(ctx) 
@@ -120,15 +121,37 @@ function main(){
         for(let i = 0; i < car.length; i++){
             car[i].draw(ctx);
         }
-        for(let i = 0; i < car.length; i++){
-            if(car[i].collide(ambulance)){
-                alert("Chocaste bro, se te murió el paciente, bro :(")
+        requestId = window.requestAnimationFrame(moveStarL);
+        divGO.classList.remove("active")
+        
+        try{
+            for(let i = 0; i < car.length; i++){
+                if(car[i].collide(ambulanc[0])){
+                    ambulanc.pop();
+                    window.cancelAnimationFrame(requestId);
+                    window.clearInterval(intervalScore);
+                    window.clearInterval(intervalCars);
+                    ctx.clearRect(0, 0, w, h)
+                    /* ambulance.x = 80 + 2*div - 40;
+                    ambulance.y = h-160 */
+                    gameOver()
+                    /* Elimino la ambulacia, llamar game over, al darle play again, se elimine game over y
+                    llame la función main */
+                }
             }
         }
-        ambulance.draw(ctx);
-        window.requestAnimationFrame(moveStarL);
+        catch(TypeError){
+            console.log("Comeme los huevos")
+            
+        }
+        try{
+            ambulanc[0].draw(ctx);
+        }
+        catch(TypeError){
+            console.log("Comemelos tú")
+        }
     }
-
+    /* Función para crear las líneas de la calle que se mueven */
     function streetLines(){
         let p1, p2, p3, p4;
         p1 = new Point(140, -70);
@@ -148,44 +171,34 @@ function main(){
             delete startLine
         }
     }
-
+    /* Función para mostrar todas las líneas al iniciar la página */
     function startLines(){
         lines();
-        let l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l13,l14,l15,l16,l17,l18,l19,l20, l21, l22, l23, l24;
-        l1 = new Rectangle(140, h-3-70, 15, 70, "white");
-        l2 = new Rectangle(140, h-3-70*3, 15, 70, "white");
-        l3 = new Rectangle(140, h-3-70*5, 15, 70, "white");
-        l4 = new Rectangle(140, h-3-70*7, 15, 70, "white");
-        l5 = new Rectangle(140, h-3-70*9, 15, 70, "white");
-        l6 = new Rectangle(140, h-3-70*11, 15, 70, "white");
+        let l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l13,l14;
+        l1 = new Rectangle(140, 0, 15, h, "white");
 
-        l7 = new Rectangle(140*2-5, h-3-70, 15, 70, "white");
-        l8 = new Rectangle(140*2-5, h-3-70*3, 15, 70, "white");
-        l9 = new Rectangle(140*2-5, h-3-70*5, 15, 70, "white");
-        l10 = new Rectangle(140*2-5, h-3-70*7, 15, 70, "white");
-        l11 = new Rectangle(140*2-5, h-3-70*9, 15, 70, "white");
-        l12 = new Rectangle(140*2-5, h-3-70*11, 15, 70, "white");
+        l2 = new Rectangle(140*2-5, h-3-70, 15, 70, "white");
+        l3 = new Rectangle(140*2-5, h-3-70*3, 15, 70, "white");
+        l4 = new Rectangle(140*2-5, h-3-70*5, 15, 70, "white");
+        l5 = new Rectangle(140*2-5, h-3-70*7, 15, 70, "white");
+        l6 = new Rectangle(140*2-5, h-3-70*9, 15, 70, "white");
+        l7 = new Rectangle(140*2-5, h-3-70*11, 15, 70, "white");
 
-        l13 = new Rectangle(140*3-10, h-3-70, 15, 70, "white");
-        l14 = new Rectangle(140*3-10, h-3-70*3, 15, 70, "white");
-        l15 = new Rectangle(140*3-10, h-3-70*5, 15, 70, "white");
-        l16 = new Rectangle(140*3-10, h-3-70*7, 15, 70, "white");
-        l17 = new Rectangle(140*3-10, h-3-70*9, 15, 70, "white");
-        l18 = new Rectangle(140*3-10, h-3-70*11, 15, 70, "white");
+        l8 = new Rectangle(140*3-10, h-3-70, 15, 70, "white");
+        l9 = new Rectangle(140*3-10, h-3-70*3, 15, 70, "white");
+        l10 = new Rectangle(140*3-10, h-3-70*5, 15, 70, "white");
+        l11 = new Rectangle(140*3-10, h-3-70*7, 15, 70, "white");
+        l12 = new Rectangle(140*3-10, h-3-70*9, 15, 70, "white");
+        l13 = new Rectangle(140*3-10, h-3-70*11, 15, 70, "white");
 
-        l19 = new Rectangle(140*4-15, h-3-70, 15, 70, "white");
-        l20 = new Rectangle(140*4-15, h-3-70*3, 15, 70, "white");
-        l21 = new Rectangle(140*4-15, h-3-70*5, 15, 70, "white");
-        l22 = new Rectangle(140*4-15, h-3-70*7, 15, 70, "white");
-        l23 = new Rectangle(140*4-15, h-3-70*9, 15, 70, "white");
-        l24 = new Rectangle(140*4-15, h-3-70*11, 15, 70, "white");
+        l14 = new Rectangle(140*4-15, 0, 15, h, "white");
 
-        startLine = [l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l13,l14,l15,l16,l17,l18,l19,l20,l21,l22,l23,l24];
+        startLine = [l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l13,l14];
         for(let i = 0; i < startLine.length; i++){
             startLine[i].draw(ctx);
         }
     }
-
+    /* Fución para guardar los datos del usuario y llamar algunas otras funciones */
     function saveUser(){
         let cuenta = new User();
         let nameUser = document.getElementById("name").value;
@@ -198,11 +211,44 @@ function main(){
         if(localStorage.getItem("User") == null){
             localStorage.setItem("User", JSON.stringify(user))
         }
-        setInterval(cars, 1500)
+        intervalCars = window.setInterval(cars, 1900)
+        intervalScore = window.setInterval(score, 1000)
         body.addEventListener("keydown", moveAmbulance)
-        window.requestAnimationFrame(moveStarL);
+        requestId = window.requestAnimationFrame(moveStarL);
     }
+    /* Función para el puntaje */
+    function score(){
+        let sr = document.getElementById("score");
+        let best = new Number;
+        ptj += 1;
+        sr.value = ptj;
+        localStorage.setItem("Score", ptj)
+        localStorage.setItem("Best Score", best) 
+        if(ptj > 50)
+        {for(let i = 0; i < car.length; i++){
+            car[i].vy += 0.5;
+        }}
+        if(ptj > 100)
+        {for(let i = 0; i < car.length; i++){
+            car[i].vy += 0.5;
+        }}
+        if(ptj > 150)
+        {for(let i = 0; i < car.length; i++){
+            car[i].vy += 1;
+        }}
 
+        if(ptj > best)
+        {
+            best = ptj
+            localStorage.setItem("Best Score", best)
+        }
+        else{
+            localStorage.setItem("Best Score", best)
+        }
+
+
+    }
+    /* Función para los botones de las redes */
     function media()
     {
         let github = document.getElementById("githubdiv");
@@ -239,6 +285,44 @@ function main(){
         maildiv.classList.remove("active");
         })
     }
+    /* Función para las líneas verticales estáticas */
+    function lines() 
+    {
+        let point1, point2, point3, point4;
+        point1 = new Point(80, 0);
+        point2 = new Point(80, h);
+        point3 = new Point(w - 80, 0);
+        point4 = new Point(w - 80, h);
+
+        let line1, line2;
+        line1 = new Line(point1, point2);
+        line2 = new Line(point3, point4);
+        line1.draw(ctx);
+        line2.draw(ctx);
+
+    }
+    /* Función para los números aleatorios */
+    function randInt(a,b){
+        return Math.floor(Math.random()* (1 + b - a) + a)
+    }
+
+}
+
+function gameOver(){
+    let canvas = document.getElementById("canva");
+    let ctx = canvas.getContext("2d");
+    let w = canvas.clientWidth;
+    let h = canvas.clientHeight;
+    let btnTA = document.getElementById("try-again")
+    let divGO = document.getElementById("game-over")
+    divGO.classList.add("active")
+    lines();
+    startLines();
+    btnTA.addEventListener("click", ()=>{
+        ctx.clearRect(0, -500, w, h+500)
+        main();
+        divGO.classList.remove("active")
+    })
 
     function lines() 
     {
@@ -255,9 +339,30 @@ function main(){
         line2.draw(ctx);
 
     }
+    function startLines(){
+        lines();
+        let l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l13,l14;
+        l1 = new Rectangle(140, 0, 15, h, "white");
 
-    function randInt(a,b){
-        return Math.floor(Math.random()* (1 + b - a) + a)
+        l2 = new Rectangle(140*2-5, h-3-70, 15, 70, "white");
+        l3 = new Rectangle(140*2-5, h-3-70*3, 15, 70, "white");
+        l4 = new Rectangle(140*2-5, h-3-70*5, 15, 70, "white");
+        l5 = new Rectangle(140*2-5, h-3-70*7, 15, 70, "white");
+        l6 = new Rectangle(140*2-5, h-3-70*9, 15, 70, "white");
+        l7 = new Rectangle(140*2-5, h-3-70*11, 15, 70, "white");
+
+        l8 = new Rectangle(140*3-10, h-3-70, 15, 70, "white");
+        l9 = new Rectangle(140*3-10, h-3-70*3, 15, 70, "white");
+        l10 = new Rectangle(140*3-10, h-3-70*5, 15, 70, "white");
+        l11 = new Rectangle(140*3-10, h-3-70*7, 15, 70, "white");
+        l12 = new Rectangle(140*3-10, h-3-70*9, 15, 70, "white");
+        l13 = new Rectangle(140*3-10, h-3-70*11, 15, 70, "white");
+
+        l14 = new Rectangle(140*4-15, 0, 15, h, "white");
+
+        startLine = [l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l13,l14];
+        for(let i = 0; i < startLine.length; i++){
+            startLine[i].draw(ctx);
+        }
     }
-
 }

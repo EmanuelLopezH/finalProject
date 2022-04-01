@@ -48,7 +48,7 @@ class Cars extends Point{
 
     collide(otherCar){
         let answer;
-        if((this.limL < otherCar.limR) &&
+        if((this.limL < otherCar.limR + 10) &&
         (this.limR > otherCar.limL) &&
         (this.limA < otherCar.limD) &&
         (this.limD > otherCar.limA)

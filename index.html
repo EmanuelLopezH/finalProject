@@ -43,15 +43,24 @@
             <p>Puntuación:</p> <br>
             <input class="field" id="score" type="text" readonly value="000000">
             <br>
-            <br>
-            <p>Monedas:</p> <br>
-            <input class="field" type="text" id="coins" readonly value="100">
             <button type="button" id="btn-start">Comenzar</button>
         </form>
     </div>
     <br>
     <div id="juego" class="juego">
         <canvas id="canva" class="canva" width="700" height="800"></canvas>
+    </div>
+
+    <div class="game-over" id="game-over">
+        <h1>Fin del Juego</h1>
+        <br><br>
+        <h2>Puntuación:</h2> <br><br>
+        <p>si</p><br><br>
+        <h2>Mejor Puntuación</h2><br><br>
+        <p>también</p><br><br>
+        <form>
+            <button type="button" id="try-again">De Nuevo</button>
+        </form>
     </div>
 </body>
 </html>
